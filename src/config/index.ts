@@ -1,4 +1,5 @@
 import dotenv from "dotenv"
+import { connect } from "http2";
 import path from "path"
 
  dotenv.config(
@@ -8,7 +9,8 @@ import path from "path"
  )
 
 const config={
-    port:process.env.PORT
+    port:process.env.PORT,
+    connectionString:process.env.CONNECTION_STRING
 }
 
 export default config;
