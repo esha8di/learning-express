@@ -1,4 +1,3 @@
-
 import express, {
   text,
   type Application,
@@ -31,8 +30,6 @@ const initDB = async () => {
   created_at TIMESTAMPTZ default now(),
   updated_at TIMESTAMPTZ default now()
 
-
-  
 )`);
     console.log("Table created successfully ");
   } catch (err) {
@@ -74,16 +71,19 @@ app.get("/api/user", async (req: Request, res: Response) => {
 app.get("/api/user/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const result = await pool.query(
-      `SELECT * FROM users WHERE id = $1`,
-      [id],
-    );
+    const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "user not found" });
     }
 
-    res.status(200).json({status:true, message: "user retrieved successfully", data: result.rows[0] });
+    res
+      .status(200)
+      .json({
+        status: true,
+        message: "user retrieved successfully",
+        data: result.rows[0],
+      });
   } catch (err) {
     res.status(500).json({ message: "error fetching user", error: err });
   }
@@ -92,17 +92,23 @@ app.get("/api/user/:id", async (req: Request, res: Response) => {
 app.put("/api/user/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, email, password, age } = req.body;
-  try{
-    const result =await pool.query(
+  try {
+    const result = await pool.query(
       `UPDATE 
       users set 
       name =COALESCE($1, name), email = COALESCE($2, email), password = COALESCE($3, password), age = COALESCE($4, age) where id = $5 RETURNING *`,
-      [name, email, password, age, id]
-    )
-    if(result.rows.length===0){
+      [name, email, password, age, id],
+    );
+    if (result.rows.length === 0) {
       return res.status(404).json({ message: "user not found" });
     }
-    res.status(200).json({status:true, message: "user updated successfully", data: result.rows[0] });
+    res
+      .status(200)
+      .json({
+        status: true,
+        message: "user updated successfully",
+        data: result.rows[0],
+      });
   } catch (err) {
     res.status(500).json({ message: "error updating user", error: err });
   }
@@ -120,7 +126,13 @@ app.delete("/api/user/:id", async (req: Request, res: Response) => {
       return res.status(404).json({ message: "user not found" });
     }
 
-    res.status(200).json({status:true, message: "user deleted successfully", data: result.rows[0] });
+    res
+      .status(200)
+      .json({
+        status: true,
+        message: "user deleted successfully",
+        data: result.rows[0],
+      });
   } catch (err) {
     res.status(500).json({ message: "error deleting user", error: err });
   }
@@ -129,5 +141,3 @@ app.delete("/api/user/:id", async (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-
