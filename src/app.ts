@@ -4,15 +4,14 @@ import express, {
   type Request,
   type Response,
 } from "express";
-import { pool } from "./db";
-import userRoute from "./modules/user/user.route";
+
+import userRouter from "./modules/user/user.route";
 
 const app: Application = express();
 
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true })); // will accept nested data
-
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -21,8 +20,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/user", userRoute);
-
+app.use("/api/user",userRouter);
 
 
 export default app;
