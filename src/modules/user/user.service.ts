@@ -8,7 +8,13 @@ const createUserInDB = async(payload:any)=>{
   );
   return result;
 }
+const getUserFromDB = async()=>{
+    const result = await pool.query(`SELECT * FROM users`);
+    return result;
+}
+
 
 export const userService ={
-    createUserInDB
+    createUserInDB,
+    getUserFromDB
 }

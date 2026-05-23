@@ -11,7 +11,6 @@ import { userController } from "./user.controller";
 
 router.post("/", userController.createUser) 
   
-
 router.get("/", userController.getUser);
 
 router.get("/:id", userController.getUserById);
