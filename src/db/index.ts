@@ -3,7 +3,7 @@ import config from "../config";
 
 export const pool = new Pool({
   connectionString:
-    config.connectionString 
+    config.connectionString
 });
 
 export const initDB = async () => {
@@ -12,7 +12,7 @@ export const initDB = async () => {
   id SERIAL PRIMARY KEY,
   name VARCHAR(20),
   email VARCHAR(20) UNIQUE not null,
-  password VARCHAR(20) not null,
+  password TEXT not null,
   is_active BOOLEAN default true,
   age INT,
   created_at TIMESTAMPTZ default now(),
@@ -20,7 +20,7 @@ export const initDB = async () => {
 
 )`);
 
-await pool.query(`CREATE TABLE IF NOT EXISTS profiles (
+    await pool.query(`CREATE TABLE IF NOT EXISTS profiles (
   id Serial PRIMARY KEY,
   user_id INT UNIQUE REFERENCES users(id) ON DELETE CASCADE,
   bio VARCHAR(255),
