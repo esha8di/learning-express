@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { authService } from "./auth.service";
 
-const getUser = async(req:Request, res:Response)=>{
+const userLogin = async(req:Request, res:Response)=>{
    
    try{
     const result = await authService.userFromDB(req.body);
@@ -23,5 +23,5 @@ const getUser = async(req:Request, res:Response)=>{
 }
 
 export const authController = {
-    getUser
+    userLogin
 }
