@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 import { pool } from "../db";
 
-const auth = () => {
+const auth = (...roles: any) => {
     return async (req: Request, res: Response, next: NextFunction) => {
+        console.log(roles)
         const token = req.headers.authorization;
 
         if (!token) {
@@ -14,15 +15,15 @@ const auth = () => {
             })
         }
 
-        const decodedToken:jsonPayload = jwt.verify(token as string,config.secret as string)
-           
+        const decodedToken: jsonPayload = jwt.verify(token as string, config.secret as string)
+
 
         const user = await pool.query(
             `SELECT * FROM users where email=$1`,
             [decodedToken.email]
         )
-        if(user.rows.length === 0){
-             res.status(401).json({
+        if (user.rows.length === 0) {
+            res.status(401).json({
                 message: "user not found !!"
 
             })

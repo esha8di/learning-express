@@ -7,11 +7,12 @@ const router=Router();
 import { type Request, type Response } from "express";
 import { pool } from "../../db";
 import { userController } from "./user.controller";
+import auth from "../../middleware/auth";
 
 
 router.post("/", userController.createUser) 
   
-router.get("/", userController.getUser);
+router.get("/", auth("admin","agent"), userController.getUser);
 
 router.get("/:id", userController.getUserById);
 

@@ -9,7 +9,7 @@ import fs from "fs"
 import userRouter from "./modules/user/user.route";
 import { profileRoute } from "./modules/profiles/profile.route";
 import { authRoute } from "./modules/auth/auth.route";
-import auth from "./middleware/auth";
+
 
 const app: Application = express();
 
@@ -34,7 +34,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/user", auth(), userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/profile", profileRoute);
 app.use("/api/auth", authRoute)
 
