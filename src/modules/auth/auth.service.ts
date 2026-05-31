@@ -26,8 +26,9 @@ const userFromDB = async(payload:any)=>{
         }
 
         const accessToken = jwt.sign(jsonPayload, config.secret as string  , {expiresIn:"1d"})
+        const refreshToken = jwt.sign(jsonPayload, config.refresh_secret as string  , {expiresIn:"1d"})
 
-        return {accessToken}
+        return {accessToken,refreshToken}
    
 }
 

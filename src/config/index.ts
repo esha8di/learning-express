@@ -11,7 +11,8 @@ import path from "path"
 const config={
     port:process.env.PORT,
     connectionString:process.env.CONNECTION_STRING,
-    secret:process.env.SECRECT_KEY
+    secret:process.env.SECRET_KEY,
+    refresh_secret:process.env.REFRESH_SECRET
 }
 
 export default config;

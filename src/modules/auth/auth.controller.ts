@@ -5,6 +5,12 @@ const userLogin = async(req:Request, res:Response)=>{
    
    try{
     const result = await authService.userFromDB(req.body);
+    const {refreshToken} = result;
+    res.cookie("resfresh_token", refreshToken,{
+        secure:false,
+        httpOnly:true,
+        sameSite:'lax'
+    })
     res.status(200).json({
         message:"login successful",
         data :result
