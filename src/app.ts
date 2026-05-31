@@ -9,13 +9,17 @@ import fs from "fs"
 import userRouter from "./modules/user/user.route";
 import { profileRoute } from "./modules/profiles/profile.route";
 import { authRoute } from "./modules/auth/auth.route";
+import cookieParser from "cookie-parser"
 
 
 const app: Application = express();
 
+
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true })); // will accept nested data
+app.use(cookieParser())
+
 
 // app.use((req,res,next)=>{
 //   console.log("Method Url Time",Date.now().toLocaleString())

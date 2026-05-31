@@ -1,7 +1,7 @@
 import { pool } from "../../db";
 import * as bcrypt from "bcrypt"
 
-import jwt from "jsonwebtoken"
+import jwt, { type JwtPayload } from "jsonwebtoken"
 import config from "../../config";
 const userFromDB = async(payload:any)=>{
     const {email,password} = payload;
@@ -32,6 +32,41 @@ const userFromDB = async(payload:any)=>{
    
 }
 
+const generateRefreshtoken = async(token:string) =>{
+     
+        console.log(token)
+        if (!token) {
+            throw new Error("unauthorized access");
+        }
+
+        const decodedToken = jwt.verify(token as string, config.refresh_secret as string) as JwtPayload;
+
+
+        const user = await pool.query(
+            `SELECT * FROM users where email=$1`,
+            [decodedToken.email]
+        )
+
+        if (user.rows.length === 0) {
+            throw new Error("unauthorized access");
+           
+
+        }
+        const jsonPayload:any={
+            id:user.rows[0].id,
+            name:user.rows[0].name,
+            email:user.rows[0].email,
+            role:user.rows[0].role
+        }
+
+        const accessToken = jwt.sign(jsonPayload, config.secret as string  , {expiresIn:"10d"})
+        
+
+        return {accessToken}
+       
+}
+
 export const authService = {
-    userFromDB
+    userFromDB,
+    generateRefreshtoken
 }
