@@ -1,18 +1,19 @@
 import { Router } from "express";
 
 
-const router=Router();
+const router = Router();
 
 
 import { type Request, type Response } from "express";
 import { pool } from "../../db";
 import { userController } from "./user.controller";
 import auth from "../../middleware/auth";
+import { ROLES } from "../../types";
 
+ 
+router.post("/", userController.createUser)
 
-router.post("/", userController.createUser) 
-  
-router.get("/", auth("admin","agent"), userController.getUser);
+router.get("/", auth(ROLES.admin, ROLES.agent, ROLES.user), userController.getUser);
 
 router.get("/:id", userController.getUserById);
 
@@ -66,7 +67,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({ message: "error deleting user", error: err });
   }
-});  
-const userRoute=router;
+});
+const userRoute = router;
 export default userRoute;
 

@@ -21,7 +21,8 @@ const userFromDB = async(payload:any)=>{
         const jsonPayload:any={
             id:user.rows[0].id,
             name:user.rows[0].name,
-            email:user.rows[0].email
+            email:user.rows[0].email,
+            role:user.rows[0].role
         }
 
         const accessToken = jwt.sign(jsonPayload, config.secret as string  , {expiresIn:"1d"})
