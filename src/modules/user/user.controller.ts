@@ -16,8 +16,7 @@ const createUser = async (req: Request, res: Response) => {
 };
 
 const getUser =async (req: Request, res: Response) => {
-  const result = await pool.query(`
-    SELECT * FROM users`);
+  const result = await userService.getUserFromDB();
   res
     .status(200)
     .json({ message: "user data retieve successfully", data: result.rows as IUser[] });
