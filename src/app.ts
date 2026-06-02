@@ -11,6 +11,7 @@ import { profileRoute } from "./modules/profiles/profile.route";
 import { authRoute } from "./modules/auth/auth.route";
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import {globalErrorHandling} from "./middleware/globalErrorHandling";
 
 
 const app: Application = express();
@@ -48,13 +49,6 @@ app.use("/api/user", userRouter);
 app.use("/api/profile", profileRoute);
 app.use("/api/auth", authRoute)
 
-app.use((err, req, res, next) => {
-  console.error(err.stack); // Log the error
-
-  res.status(500).json({
-    success: false,
-    message: err.message || "Internal Server Error",
-  });
-});
+app.use(globalErrorHandling);
 
 export default app;
