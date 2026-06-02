@@ -10,11 +10,17 @@ import userRouter from "./modules/user/user.route";
 import { profileRoute } from "./modules/profiles/profile.route";
 import { authRoute } from "./modules/auth/auth.route";
 import cookieParser from "cookie-parser"
+import cors from "cors"
 
 
 const app: Application = express();
 
 
+app.use(cors(
+  {
+    origin: 'http://localhost',
+  }
+))
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true })); // will accept nested data
@@ -42,5 +48,13 @@ app.use("/api/user", userRouter);
 app.use("/api/profile", profileRoute);
 app.use("/api/auth", authRoute)
 
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Log the error
+
+  res.status(500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
 
 export default app;
