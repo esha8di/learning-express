@@ -2,14 +2,18 @@ import { type Request, type Response } from "express";
 import { pool } from "../../db";
 import { userService } from "./user.service";
 import type { IUser } from "./user.interface";
+import sendResponse from "../../utility/sendResponse";
 
 const createUser = async (req: Request, res: Response) => {
   try {
    const result =await userService.createUserInDB(req.body);
    console.log("user",result);
-    res
-      .status(200)
-      .json({ message: "user created successfully", data: result.rows[0] as IUser });
+   sendResponse<IUser>(res,{
+    statusCode:200,
+    message:"user created succcessfully",
+    data:result.rows[0]
+
+   })
   } catch (err) {
     res.status(500).json({ message: "error creating user", error: err });
   }

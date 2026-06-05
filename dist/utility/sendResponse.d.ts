@@ -1,0 +1,9 @@
+import type { Response } from "express";
+type TResponse<T> = {
+    statusCode: number;
+    message: string;
+    data?: T;
+};
+declare const sendResponse: <T>(res: Response, data: TResponse<T>) => void;
+export default sendResponse;
+//# sourceMappingURL=sendResponse.d.ts.map

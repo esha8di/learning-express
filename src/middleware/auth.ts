@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express"
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import config from "../config";
 import { pool } from "../db";
 
@@ -17,7 +17,7 @@ const auth = (...roles: USER_ROLES[]) => {
             })
         }
 
-        const decodedToken: jsonPayload = jwt.verify(token as string, config.secret as string)
+        const decodedToken = jwt.verify(token as string, config.secret as string) as JwtPayload;
 
 
         const user = await pool.query(
